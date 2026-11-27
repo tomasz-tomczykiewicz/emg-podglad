@@ -60,12 +60,16 @@ p{text-wrap:pretty}
 /* ---------- pills ---------- */
 .pill{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 22px;border-radius:999px;font:500 16px/1 var(--sans);text-decoration:none;white-space:nowrap;transition:transform 160ms var(--ease),background-color 160ms var(--ease),box-shadow 160ms var(--ease)}
 .pill:active{transform:scale(.97)}
+.pill .lbl{position:relative}
+.pill .lbl::after{content:"";position:absolute;left:0;right:0;bottom:-4px;height:1.5px;border-radius:2px;background:currentColor;opacity:.45;transform:scaleX(0);transform-origin:right;transition:transform 280ms var(--ease)}
+@media (prefers-reduced-motion:reduce){.pill .lbl::after{transition:none}}
 .pill-dark{background:var(--ink);color:#fff}
 .pill-light{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
 .pill svg{width:17px;height:17px;flex:none}
 @media (hover:hover) and (pointer:fine){
-  .pill-dark:hover{background:#000;transform:translateY(-1px)}
-  .pill-light:hover{box-shadow:0 4px 14px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.05);transform:translateY(-1px)}
+  .pill-dark:hover{background:#000;transform:translateY(-2px)}
+  .pill-light:hover{box-shadow:0 4px 14px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.05);transform:translateY(-2px)}
+  .pill:hover .lbl::after{transform:scaleX(1);transform-origin:left}
 }
 
 /* ---------- nav ---------- */
@@ -588,6 +592,11 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   window.addEventListener('scroll',spy,{passive:true});
   spy();
 })();
+
+/* przyciski: tekst w span, żeby kreska była tylko pod napisem */
+document.querySelectorAll('.pill').forEach(function(b){
+  [].slice.call(b.childNodes).forEach(function(n){ if(n.nodeType===3&&n.textContent.trim()){ var sp=document.createElement('span'); sp.className='lbl'; sp.textContent=n.textContent.trim(); b.replaceChild(sp,n); } });
+});
 
 /* #cennik otwiera pełny cennik */
 (function(){function o(){if(location.hash==='#cennik'){var d=document.getElementById('cennik');if(d)d.open=true}}window.addEventListener('hashchange',o);o();

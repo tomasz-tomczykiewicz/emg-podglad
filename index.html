@@ -49,6 +49,7 @@ p{text-wrap:pretty}
 .palbar .toggle{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;color:#C9CED6;margin-left:auto}
 .palbar .toggle .tg{width:34px;height:20px;border-radius:999px;background:#2A2F37;position:relative;transition:background-color 160ms}
 .palbar .toggle .tg::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform 180ms cubic-bezier(0.23,1,0.32,1)}
+.palbar .toggle.t2{margin-left:0}
 .palbar .toggle[aria-pressed="true"]{color:#fff}
 .palbar .toggle[aria-pressed="true"] .tg{background:var(--blue)}
 .palbar .toggle[aria-pressed="true"] .tg::after{transform:translateX(14px)}
@@ -113,6 +114,13 @@ p{text-wrap:pretty}
   background:var(--blue);opacity:.32;
   -webkit-mask:url(mozg-maska.png) center/contain no-repeat;mask:url(mozg-maska.png) center/contain no-repeat}
 html.brain .hero-brain{display:block}
+.hero-nerves{display:none;position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;color:var(--blue);-webkit-mask-image:radial-gradient(ellipse 38% 46% at 50% 44%,transparent 55%,#000 100%);mask-image:radial-gradient(ellipse 38% 46% at 50% 44%,transparent 55%,#000 100%)}
+html.nerves .hero-nerves{display:block}
+.hero-nerves path{fill:none;stroke:currentColor;stroke-linecap:round;opacity:.22}
+.hero-nerves circle{fill:currentColor;opacity:.22}
+.hero-nerves .imp{opacity:.7;stroke-dasharray:10 900;stroke-dashoffset:910;animation:imp 5.5s cubic-bezier(0.45,0,0.55,1) infinite}
+@keyframes imp{to{stroke-dashoffset:0}}
+@media (prefers-reduced-motion:reduce){.hero-nerves .imp{display:none}}
 @media (max-width:960px){.hero-brain{width:220px;height:440px;right:-30px;top:10px;opacity:.22}}
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);margin:112px 0 0}
@@ -254,7 +262,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   <span class="pb-lab">Kolor: <b id="palname">Niebo</b></span>
   <div class="sw" id="sw"></div>
   <span class="pb-sep" aria-hidden="true"></span>
-  <button type="button" id="brainbtn" class="toggle" aria-pressed="false"><span>Czaszka w tle</span><i class="tg"></i></button>
+  <button type="button" id="nervebtn" class="toggle" aria-pressed="false"><span>Nerwy w tle</span><i class="tg"></i></button>
+  <button type="button" id="brainbtn" class="toggle t2" aria-pressed="false"><span>Czaszka w tle</span><i class="tg"></i></button>
 </div></div>
 <header class="nav">
   <div class="wrap">
@@ -275,6 +284,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 <main>
   <section class="hero" style="padding-top:84px">
+    <svg class="hero-nerves" id="nerves" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
     <div class="hero-brain" aria-hidden="true"></div>
     <div class="wrap">
       <span class="badge up" id="status"><i></i><span>Przyjmuję pon–pt od 9:00</span></span>
@@ -482,6 +492,29 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   function brain(on){root.classList.toggle('brain',on);bb.setAttribute('aria-pressed',on);try{localStorage.setItem('emg-brain',on?'1':'0')}catch(e){}}
   bb.addEventListener('click',function(){brain(!root.classList.contains('brain'))});
   var b0=false; try{b0=localStorage.getItem('emg-brain')==='1'}catch(e){} brain(b0);
+  var nb=document.getElementById('nervebtn');
+  function nerves(on){root.classList.toggle('nerves',on);nb.setAttribute('aria-pressed',on);try{localStorage.setItem('emg-nerves',on?'1':'0')}catch(e){}}
+  nb.addEventListener('click',function(){nerves(!root.classList.contains('nerves'))});
+  var n0=false; try{n0=localStorage.getItem('emg-nerves')==='1'}catch(e){} nerves(n0);
+})();
+
+/* nerwy w tle: rozgałęzione włókna (rysunek poglądowy) */
+(function(){
+  var svg=document.getElementById('nerves'); if(!svg) return;
+  var NS='http://www.w3.org/2000/svg', seed=42, out='';
+  function r(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
+  function br(x,y,a,len,w,d,first){
+    var ex=x+Math.cos(a)*len, ey=y+Math.sin(a)*len, bend=(r()-.5)*len*.5;
+    var cx=(x+ex)/2+Math.cos(a+Math.PI/2)*bend, cy=(y+ey)/2+Math.sin(a+Math.PI/2)*bend;
+    var dd='M'+x.toFixed(1)+' '+y.toFixed(1)+'Q'+cx.toFixed(1)+' '+cy.toFixed(1)+' '+ex.toFixed(1)+' '+ey.toFixed(1);
+    out+='<path d="'+dd+'" stroke-width="'+w.toFixed(2)+'"/>';
+    if(first) out+='<path class="imp" d="'+dd+'" stroke-width="'+(w+.6).toFixed(2)+'" style="animation-delay:'+(r()*4).toFixed(2)+'s"/>';
+    if(d<=0){ out+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="'+(1.5+r()*1.5).toFixed(1)+'"/>'; return; }
+    var n=r()<.3?3:2;
+    for(var i=0;i<n;i++) br(ex,ey,a+(i-(n-1)/2)*(.45+r()*.35),len*(.62+r()*.18),w*.68,d-1,first&&i===0);
+  }
+  [[-20,200,.35],[-20,640,-.25],[1460,240,2.75],[1460,700,3.45]].forEach(function(t){ br(t[0],t[1],t[2],210+r()*50,2.4,4,true) });
+  svg.innerHTML=out;
 })();
 
 /* #cennik otwiera pełny cennik */

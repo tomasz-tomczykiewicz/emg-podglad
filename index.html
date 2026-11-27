@@ -508,7 +508,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   if(!svg||!skull) return;
   var IW=620, IH=1225;
   /* punkty startu na obrazie czaszki (0..1): rdzeń, szyja, pień mózgu, mózg, twarz */
-  var ROOTS=[[.86,.60,3.30],[.86,.76,2.85],[.84,.90,2.45],[.66,.20,3.75],[.55,.55,3.05]];
+  var ROOTS=[[.86,.62,3.28],[.84,.88,2.62],[.62,.20,3.70]];
   function draw(){
     var hr=hero.getBoundingClientRect(), br=skull.getBoundingClientRect();
     var W=hr.width, H=hr.height; if(!W||!H) return;
@@ -533,7 +533,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
         out+='<path class="'+cls+'" d="'+smooth(seg)+'" stroke-width="'+(w*(1-k*.2)).toFixed(2)+'"/>'; }
       if(depth>0){
         for(var j=3;j<pts.length-2;j+=3+Math.floor(r()*3)){
-          if(r()<.62){ var p=pts[j], q=pts[j+1], a0=Math.atan2(q[1]-p[1],q[0]-p[0]);
+          if(r()<.42){ var p=pts[j], q=pts[j+1], a0=Math.atan2(q[1]-p[1],q[0]-p[0]);
             fiber(p[0],p[1],a0+(r()<.5?-1:1)*(.4+r()*.55),len*(.3+r()*.25),w*.58,depth-1,depth>1?'b':'d'); }
         }
       }
@@ -542,7 +542,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
         out+='<path class="d" d="M'+e[0].toFixed(1)+' '+e[1].toFixed(1)+'Q'+(e[0]+Math.cos(aa)*ll*.6+(r()-.5)*4).toFixed(1)+' '+(e[1]+Math.sin(aa)*ll*.6+(r()-.5)*4).toFixed(1)+' '+(e[0]+Math.cos(aa)*ll).toFixed(1)+' '+(e[1]+Math.sin(aa)*ll).toFixed(1)+'" stroke-width=".7"/>'; }
       out+='<circle cx="'+e[0].toFixed(1)+'" cy="'+e[1].toFixed(1)+'" r="'+(1.2+r()*1.2).toFixed(1)+'"/>';
     }
-    ROOTS.forEach(function(t){ fiber(ix+t[0]*iw, iy+t[1]*ih, t[2]+(r()-.5)*.15, W*(.45+r()*.2), 2.4, 2, 't'); });
+    ROOTS.forEach(function(t){ fiber(ix+t[0]*iw, iy+t[1]*ih, t[2]+(r()-.5)*.1, W*(.5+r()*.15), 2.4, 1, 't'); });
+    /* nerwy obwodowe od lewej krawędzi */
+    fiber(-10, H*.24, .22, W*.34, 2.2, 1, 't');
+    fiber(-10, H*.80, -.25, W*.36, 2.2, 1, 't');
     svg.innerHTML=out;
   }
   draw();

@@ -110,19 +110,22 @@ p{text-wrap:pretty}
 .tile-sand .cap span{display:block;font-size:14px;color:var(--ink-2);margin-top:2px}
 .tile-sand{text-decoration:none;color:var(--ink)}
 /* czaszka w tle (opcja z paska podglądu) */
-.hero-brain{position:absolute;top:0;bottom:0;right:0;width:50%;z-index:-1;
+.hero-brain{position:absolute;top:24px;right:max(0px,calc(50% - 700px));width:340px;height:670px;z-index:-1;
   background:var(--blue);opacity:0;transition:opacity 300ms;
-  -webkit-mask:url(mozg-maska.png) right center/contain no-repeat;mask:url(mozg-maska.png) right center/contain no-repeat}
+  -webkit-mask:url(mozg-maska.png) center/contain no-repeat;mask:url(mozg-maska.png) center/contain no-repeat}
 html.brain .hero-brain{opacity:.17}
 .hero-nerves{display:none;position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;color:var(--blue);
-  -webkit-mask-image:radial-gradient(ellipse 30% 30% at 50% 38%,transparent 35%,#000 100%);mask-image:radial-gradient(ellipse 30% 30% at 50% 38%,transparent 35%,#000 100%)}
+  -webkit-mask-image:radial-gradient(ellipse 34% 34% at 50% 40%,transparent 45%,#000 100%);mask-image:radial-gradient(ellipse 34% 34% at 50% 40%,transparent 45%,#000 100%)}
 html.nerves .hero-nerves{display:block}
 .hero-nerves path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
 .hero-nerves .t{opacity:.34}
 .hero-nerves .b{opacity:.24}
 .hero-nerves .d{opacity:.20}
 .hero-nerves circle{fill:currentColor;opacity:.30}
-@media (max-width:960px){.hero-brain{width:85%}html.brain .hero-brain{opacity:.10}}
+.hero-nerves .imp{opacity:.85;stroke-width:4;stroke-dasharray:.6 1200;stroke-dashoffset:0;filter:drop-shadow(0 0 4px currentColor);animation:imp 4.8s cubic-bezier(0.4,0,0.6,1) infinite}
+@keyframes imp{0%{stroke-dashoffset:0;opacity:0}8%{opacity:.85}85%{opacity:.85}100%{stroke-dashoffset:-1000;opacity:0}}
+@media (prefers-reduced-motion:reduce){.hero-nerves .imp{display:none}}
+@media (max-width:960px){.hero-brain{width:220px;height:440px;right:-30px;top:10px}html.brain .hero-brain{opacity:.12}}
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);margin:112px 0 0}
 .stat{text-align:center;padding:12px 16px}
@@ -505,7 +508,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   if(!svg||!skull) return;
   var IW=620, IH=1225;
   /* punkty startu na obrazie czaszki (0..1): rdzeń, szyja, pień mózgu, mózg, twarz */
-  var ROOTS=[[.86,.58,3.45],[.88,.68,3.10],[.86,.78,2.75],[.84,.90,2.55],[.72,.40,3.55],[.64,.18,3.75],[.55,.55,2.90]];
+  var ROOTS=[[.86,.60,3.30],[.86,.76,2.85],[.84,.90,2.45],[.66,.20,3.75],[.55,.55,3.05]];
   function draw(){
     var hr=hero.getBoundingClientRect(), br=skull.getBoundingClientRect();
     var W=hr.width, H=hr.height; if(!W||!H) return;
@@ -524,6 +527,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       var step=16, n=Math.max(3,Math.round(len/step)), pts=[[x,y]], ph=r()*6.28, amp=.05+r()*.05, drift=(r()-.5)*.012;
       for(var i=0;i<n;i++){ ang+=drift+Math.sin(i*.22+ph)*amp+(r()-.5)*.14; x+=Math.cos(ang)*step; y+=Math.sin(ang)*step; pts.push([x,y]); }
       /* zwężanie: kilka odcinków o malejącej grubości */
+      if(cls==='t') out+='<path class="imp" pathLength="1000" d="'+smooth(pts)+'" style="animation-delay:'+(r()*5).toFixed(2)+'s;animation-duration:'+(3.8+r()*2.4).toFixed(2)+'s"/>';
       var parts=4, per=Math.ceil(pts.length/parts);
       for(var k=0;k<parts;k++){ var seg=pts.slice(k*per, (k+1)*per+1); if(seg.length<2) continue;
         out+='<path class="'+cls+'" d="'+smooth(seg)+'" stroke-width="'+(w*(1-k*.2)).toFixed(2)+'"/>'; }
@@ -538,7 +542,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
         out+='<path class="d" d="M'+e[0].toFixed(1)+' '+e[1].toFixed(1)+'Q'+(e[0]+Math.cos(aa)*ll*.6+(r()-.5)*4).toFixed(1)+' '+(e[1]+Math.sin(aa)*ll*.6+(r()-.5)*4).toFixed(1)+' '+(e[0]+Math.cos(aa)*ll).toFixed(1)+' '+(e[1]+Math.sin(aa)*ll).toFixed(1)+'" stroke-width=".7"/>'; }
       out+='<circle cx="'+e[0].toFixed(1)+'" cy="'+e[1].toFixed(1)+'" r="'+(1.2+r()*1.2).toFixed(1)+'"/>';
     }
-    ROOTS.forEach(function(t){ fiber(ix+t[0]*iw, iy+t[1]*ih, t[2]+(r()-.5)*.15, W*(.42+r()*.22), 2.4, 3, 't'); });
+    ROOTS.forEach(function(t){ fiber(ix+t[0]*iw, iy+t[1]*ih, t[2]+(r()-.5)*.15, W*(.45+r()*.2), 2.4, 2, 't'); });
     svg.innerHTML=out;
   }
   draw();

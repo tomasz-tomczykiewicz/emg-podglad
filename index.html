@@ -48,9 +48,7 @@ p{text-wrap:pretty}
 @media (hover:hover) and (pointer:fine){.palbar .sw button:hover{transform:scale(1.12)}}
 .palbar button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .pb-sep{width:1px;height:24px;background:#2A2F37;flex:none}
-.palbar .seg{display:flex;gap:2px;background:#1B1E24;border-radius:999px;padding:3px}
-.palbar .seg button{all:unset;cursor:pointer;padding:6px 10px;border-radius:999px;color:#AEB4BC;white-space:nowrap;transition:background-color 150ms,color 150ms}
-.palbar .seg button[aria-pressed="true"]{background:#fff;color:#111}
+
 .palbar .toggle{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;color:#C9CED6;margin-left:auto}
 .palbar .toggle .tg{width:34px;height:20px;border-radius:999px;background:#2A2F37;position:relative;transition:background-color 160ms}
 .palbar .toggle .tg::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform 180ms cubic-bezier(0.23,1,0.32,1)}
@@ -83,25 +81,13 @@ p{text-wrap:pretty}
 /* aktywna sekcja: samo podkreślenie */
 .links a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:2px;border-radius:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform 260ms var(--ease)}
 .links a[aria-current="true"]::after{transform:scaleX(1)}
-/* tekst menu (dla efektu przewijania) */
-.links .roll{display:block;position:relative;overflow:hidden;line-height:1.25}
-.links .roll span{display:block;transition:transform 300ms var(--ease)}
-.links .roll span+span{position:absolute;left:0;top:100%}
-/* warianty hover (wybór w pasku podglądu) */
-.links .ind{position:absolute;top:0;left:0;height:100%;border-radius:999px;background:var(--blue-soft);opacity:0;pointer-events:none;transition:transform 280ms var(--ease),width 280ms var(--ease),opacity 200ms var(--ease)}
-html:not([data-hover="pill"]) .links .ind{display:none}
-.links a::before{content:"";position:absolute;pointer-events:none;opacity:0}
+/* hover: kreska + uniesienie */
+.links a::before{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:2px;border-radius:2px;background:currentColor;opacity:.35;pointer-events:none;transform:scaleX(0);transform-origin:right;transition:transform 280ms var(--ease)}
 @media (hover:hover) and (pointer:fine){
-  html[data-hover="roll"] .links a:hover .roll span{transform:translateY(-100%)}
-  html[data-hover="roll"] .links a:hover{color:var(--blue)}
-  html[data-hover="line"] .links a::before{left:14px;right:14px;bottom:4px;height:2px;border-radius:2px;background:currentColor;opacity:.35;transform:scaleX(0);transform-origin:right;transition:transform 280ms var(--ease)}
-  html[data-hover="line"] .links a:hover::before{transform:scaleX(1);transform-origin:left}
-  html[data-hover="dot"] .links a::before{left:50%;top:2px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--blue);transform:scale(0) translateY(4px);transition:transform 240ms var(--ease),opacity 200ms var(--ease)}
-  html[data-hover="dot"] .links a:hover::before{opacity:1;transform:scale(1) translateY(0)}
-  html[data-hover="dot"] .links a:hover{color:var(--blue)}
-  html[data-hover="lift"] .links a:hover{transform:translateY(-2px);color:var(--blue)}
+  .links a:hover{transform:translateY(-2px);color:var(--blue)}
+  .links a:hover::before{transform:scaleX(1);transform-origin:left}
 }
-@media (prefers-reduced-motion:reduce){.links .ind,.links a::after,.links a::before,.links .roll span{transition:none}}
+@media (prefers-reduced-motion:reduce){.links a,.links a::after,.links a::before{transition:none}}
 .nav .pill{height:42px;padding:0 18px;font-size:15px}
 
 /* ---------- hero ---------- */
@@ -300,8 +286,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   <span class="pb-lab">Kolor: <b id="palname">Niebo</b></span>
   <div class="sw" id="sw"></div>
   <span class="pb-sep" aria-hidden="true"></span>
-  <span class="pb-lab">Menu:</span><div class="seg" id="hovsel" role="group" aria-label="Efekt najechania w menu"></div>
-  <span class="pb-sep" aria-hidden="true"></span>
   <button type="button" id="nervebtn" class="toggle" aria-pressed="false"><span>Nerwy w tle</span><i class="tg"></i></button>
   <button type="button" id="brainbtn" class="toggle t2" aria-pressed="false"><span>Czaszka w tle</span><i class="tg"></i></button>
 </div></div>
@@ -317,7 +301,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       <a href="#o-mnie">O mnie</a>
       <a href="#umowy">Umowy</a>
       <a href="#kontakt">Kontakt</a>
-      <span class="ind" aria-hidden="true"></span>
     </nav>
     <a class="pill pill-dark" href="tel:+48601143744"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Zadzwoń</a>
   </div>
@@ -533,10 +516,6 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   function brain(on){root.classList.toggle('brain',on);bb.setAttribute('aria-pressed',on);try{localStorage.setItem('emg-brain',on?'1':'0')}catch(e){}}
   bb.addEventListener('click',function(){brain(!root.classList.contains('brain'))});
   var b0=false; try{b0=localStorage.getItem('emg-brain')==='1'}catch(e){} brain(b0);
-  var HV=[['roll','Przewijanie'],['line','Kreska'],['dot','Kropka'],['lift','Uniesienie'],['pill','Pigułka']], hs=document.getElementById('hovsel');
-  function hov(id){root.setAttribute('data-hover',id);hs.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.id===id)});try{localStorage.setItem('emg-hover',id)}catch(e){}}
-  HV.forEach(function(h){var b=document.createElement('button');b.type='button';b.dataset.id=h[0];b.textContent=h[1];b.addEventListener('click',function(){hov(h[0])});hs.appendChild(b)});
-  var h0='roll'; try{h0=localStorage.getItem('emg-hover')||'roll'}catch(e){} hov(h0);
   var nb=document.getElementById('nervebtn');
   function nerves(on){root.classList.toggle('nerves',on);nb.setAttribute('aria-pressed',on);try{localStorage.setItem('emg-nerves',on?'1':'0')}catch(e){}}
   nb.addEventListener('click',function(){nerves(!root.classList.contains('nerves'))});
@@ -597,12 +576,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 /* menu: podświetlenie pod kursorem i aktywna sekcja przy przewijaniu */
 (function(){
   var nav=document.querySelector('.links'); if(!nav) return;
-  var ind=nav.querySelector('.ind'), links=[].slice.call(nav.querySelectorAll('a')), cur=null;
+  var links=[].slice.call(nav.querySelectorAll('a')), cur=null;
   var targets=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
-  links.forEach(function(a){ var t=a.textContent; a.innerHTML='<span class="roll"><span>'+t+'</span><span aria-hidden="true">'+t+'</span></span>'; });
-  function place(a){ if(!a){ind.style.opacity=0;return} ind.style.width=a.offsetWidth+'px'; ind.style.transform='translateX('+a.offsetLeft+'px)'; ind.style.opacity=1; }
-  links.forEach(function(a){ a.addEventListener('mouseenter',function(){place(a)}); a.addEventListener('focus',function(){place(a)}); });
-  nav.addEventListener('mouseleave',function(){place(null)});
   function spy(){
     var line=Math.min(window.innerHeight*0.25,220), best=null;
     targets.forEach(function(t,i){ if(!t) return; var el=(t.tagName==='SECTION'&&t.querySelector('.wrap'))||t; if(el.getBoundingClientRect().top<=line) best=i; });

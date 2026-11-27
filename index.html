@@ -166,10 +166,10 @@ section{padding:120px 0 0}
 
 /* concerns */
 .concerns{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:start}
-.clist{list-style:none;margin:0;padding:0}
-.clist button{all:unset;cursor:pointer;display:block;font:400 clamp(30px,3.6vw,46px)/1.15 var(--serif);letter-spacing:-.02em;color:#B5B3AD;padding:6px 0;transition:color 200ms var(--ease)}
+.clist{list-style:none;margin:0;padding:0;position:relative}
+.clist .cmark{position:absolute;left:0;top:0;width:10px;height:10px;border-radius:50%;background:var(--blue);transition:transform 320ms var(--ease);pointer-events:none}
+.clist button{all:unset;cursor:pointer;display:block;font:400 clamp(30px,3.6vw,46px)/1.15 var(--serif);letter-spacing:-.02em;color:#B5B3AD;padding:6px 0 6px 26px;transition:color 200ms var(--ease)}
 .clist button[aria-selected="true"]{color:var(--ink)}
-.clist button[aria-selected="true"]::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--blue);margin-right:14px;vertical-align:middle;transform:translateY(-4px)}
 .clist button:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 @media (hover:hover) and (pointer:fine){ .clist button:hover{color:var(--ink)} }
 .cpanel{position:sticky;top:110px;background:var(--card);border-radius:var(--r-lg);padding:34px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 20px 50px -20px rgba(0,0,0,.12)}
@@ -179,8 +179,8 @@ section{padding:120px 0 0}
 .cpanel .price{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
 .cpanel .price span{color:var(--ink-2);font-size:15px}
 .cpanel .price b{font:400 44px/1 var(--serif);letter-spacing:-.01em;white-space:nowrap}
-.cpanel .fade{transition:opacity 180ms var(--ease),transform 180ms var(--ease)}
-.cpanel.swap .fade{opacity:0;transform:translateY(4px)}
+.cpanel{overflow:hidden}
+.cpanel .price b{display:inline-block}
 
 /* full price list */
 details.prices{margin-top:56px;background:var(--card);border-radius:var(--r-lg);padding:8px 30px}
@@ -188,6 +188,7 @@ details.prices summary{list-style:none;cursor:pointer;display:flex;justify-conte
 details.prices summary::-webkit-details-marker{display:none}
 details.prices summary::after{content:"+";font:400 30px/1 var(--sans);color:var(--ink-2);transition:transform 200ms var(--ease)}
 details.prices[open] summary::after{transform:rotate(45deg)}
+details.prices .pbody{overflow:hidden}
 .ptable{width:100%;border-collapse:collapse;margin-bottom:22px;font-variant-numeric:tabular-nums}
 .ptable td{padding:13px 0;border-top:1px solid var(--line)}
 .ptable td:last-child{text-align:right;white-space:nowrap;font-weight:600;padding-left:20px}
@@ -365,7 +366,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
       <details class="prices" id="cennik">
         <summary>Pełny cennik badań</summary>
-        <table class="ptable">
+        <div class="pbody"><table class="ptable">
           <tr><td>Próba tężyczkowa</td><td>300 zł</td></tr>
           <tr><td>Próba miasteniczna (2 mięśnie)</td><td>300 zł</td></tr>
           <tr><td>SF EMG, badanie pojedynczego włókna mięśniowego</td><td>650 zł</td></tr>
@@ -378,7 +379,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
           <tr><td>Badanie metodą krótkich segmentów</td><td>50 zł</td></tr>
           <tr><td>Jednorazowa elektroda igłowa</td><td>50 zł</td></tr>
           <tr class="note"><td colspan="2">U dzieci do 8 lat cena jest wyższa o 100%, powyżej 8 lat o 50%. Wykonuję też USG nerwów i leczenie toksyną botulinową.</td></tr>
-        </table>
+        </table></div>
       </details>
     </div>
   </section>
@@ -599,8 +600,30 @@ document.querySelectorAll('.pill').forEach(function(b){
 });
 
 /* #cennik otwiera pełny cennik */
-(function(){function o(){if(location.hash==='#cennik'){var d=document.getElementById('cennik');if(d)d.open=true}}window.addEventListener('hashchange',o);o();
-document.querySelectorAll('a[href="#cennik"]').forEach(function(a){a.addEventListener('click',function(){var d=document.getElementById('cennik');if(d)d.open=true})})})();
+(function(){
+  var det=document.getElementById('cennik'); if(!det) return;
+  var sum=det.querySelector('summary'), body=det.querySelector('.pbody'), anim=null, EASE='cubic-bezier(0.23,1,0.32,1)';
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function openD(){
+    if(det.open&&!anim) return; if(anim){anim.cancel();anim=null}
+    det.open=true; if(reduce||!body.animate) return;
+    var h=body.scrollHeight;
+    anim=body.animate([{height:'0px',opacity:0},{height:h+'px',opacity:1}],{duration:420,easing:EASE});
+    anim.onfinish=function(){anim=null};
+    body.querySelectorAll('tr').forEach(function(tr,i){ tr.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:340,delay:80+i*28,easing:EASE,fill:'backwards'}); });
+  }
+  function closeD(){
+    if(!det.open) return; if(reduce||!body.animate){det.open=false;return}
+    if(anim) anim.cancel();
+    var h=body.offsetHeight;
+    anim=body.animate([{height:h+'px',opacity:1},{height:'0px',opacity:0}],{duration:260,easing:EASE,fill:'forwards'});
+    anim.onfinish=function(){det.open=false;anim.cancel();anim=null};
+  }
+  sum.addEventListener('click',function(e){e.preventDefault(); (det.open&&!anim)?closeD():openD();});
+  function fromHash(){ if(location.hash==='#cennik') openD(); }
+  window.addEventListener('hashchange',fromHash); fromHash();
+  document.querySelectorAll('a[href="#cennik"]').forEach(function(a){a.addEventListener('click',openD)});
+})();
 
 /* objawy -> badanie -> cena (ceny z obecnego cennika) */
 (function(){
@@ -615,6 +638,10 @@ document.querySelectorAll('a[href="#cennik"]').forEach(function(a){a.addEventLis
     {t:'Postępujące osłabienie',k:'Choroba neuronu ruchowego',h:'Badanie w kierunku SLA',x:'Rozszerzone badanie EMG wielu mięśni w kierunku choroby neuronu ruchowego.',n:'pełny zakres',p:'950 zł'}
   ];
   var list=document.getElementById('clist'), panel=document.getElementById('cpanel'), cur=-1;
+  var fade=panel.querySelector('.fade'), mark=document.createElement('span'), outA=null, EASE='cubic-bezier(0.23,1,0.32,1)';
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  mark.className='cmark'; mark.setAttribute('aria-hidden','true'); list.appendChild(mark);
+  function moveMark(i){ var b=list.querySelectorAll('button')[i]; if(!b) return; mark.style.transform='translateY('+(b.offsetTop+b.offsetHeight/2-5)+'px)'; }
   function fill(it){
     document.getElementById('c-kind').textContent=it.k;
     document.getElementById('c-title').textContent=it.h;
@@ -625,9 +652,16 @@ document.querySelectorAll('a[href="#cennik"]').forEach(function(a){a.addEventLis
   function show(i){
     if(i===cur) return; var first=cur===-1; cur=i;
     list.querySelectorAll('button').forEach(function(b,j){b.setAttribute('aria-selected',j===i)});
-    if(first){fill(items[i]);return}
-    panel.classList.add('swap');
-    setTimeout(function(){fill(items[i]);panel.classList.remove('swap')},150);
+    moveMark(i);
+    if(first||reduce||!fade.animate){fill(items[i]);return}
+    if(outA) outA.cancel();
+    outA=fade.animate([{opacity:1,transform:'none',filter:'blur(0)'},{opacity:0,transform:'translateY(-6px)',filter:'blur(2px)'}],{duration:130,easing:'ease-out',fill:'forwards'});
+    outA.onfinish=function(){
+      var h0=panel.offsetHeight; fill(items[i]); var h1=panel.offsetHeight; outA.cancel(); outA=null;
+      fade.animate([{opacity:0,transform:'translateY(10px)',filter:'blur(2px)'},{opacity:1,transform:'none',filter:'blur(0)'}],{duration:280,easing:EASE});
+      document.getElementById('c-price').animate([{opacity:0,transform:'translateY(8px) scale(.94)'},{opacity:1,transform:'none'}],{duration:360,delay:70,easing:EASE,fill:'backwards'});
+      if(h0!==h1) panel.animate([{height:h0+'px'},{height:h1+'px'}],{duration:280,easing:EASE});
+    };
   }
   items.forEach(function(it,i){
     var li=document.createElement('li'), b=document.createElement('button');
@@ -637,6 +671,8 @@ document.querySelectorAll('a[href="#cennik"]').forEach(function(a){a.addEventLis
     li.appendChild(b); list.appendChild(li);
   });
   show(0);
+  window.addEventListener('resize',function(){moveMark(cur)});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){moveMark(cur)});
 })();
 
 /* linia zapisu w karcie (poglądowa) */

@@ -33,7 +33,8 @@ p{text-wrap:pretty}
 
 /* ---------- podgląd kolorów (tymczasowo) ---------- */
 .palbar{background:#0F1115;color:#9AA0A8;font:500 13px/1 var(--sans);border-bottom:1px solid #22262D}
-.palbar .wrap{display:flex;align-items:center;gap:18px;min-height:56px;overflow-x:auto;scrollbar-width:none}
+.palbar .wrap{width:min(1400px,100% - 40px);display:flex;align-items:center;gap:10px 16px;min-height:56px;flex-wrap:wrap;padding:8px 0}
+@media (max-width:700px){.palbar .wrap{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none}}
 .palbar .wrap::-webkit-scrollbar{display:none}
 .pb-title{display:inline-flex;align-items:center;gap:8px;color:#fff;font-weight:600;white-space:nowrap;padding-right:18px;border-right:1px solid #2A2F37}
 .pb-title svg{width:16px;height:16px}
@@ -47,6 +48,9 @@ p{text-wrap:pretty}
 @media (hover:hover) and (pointer:fine){.palbar .sw button:hover{transform:scale(1.12)}}
 .palbar button:focus-visible{outline:2px solid #fff;outline-offset:3px}
 .pb-sep{width:1px;height:24px;background:#2A2F37;flex:none}
+.palbar .seg{display:flex;gap:2px;background:#1B1E24;border-radius:999px;padding:3px}
+.palbar .seg button{all:unset;cursor:pointer;padding:6px 10px;border-radius:999px;color:#AEB4BC;white-space:nowrap;transition:background-color 150ms,color 150ms}
+.palbar .seg button[aria-pressed="true"]{background:#fff;color:#111}
 .palbar .toggle{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:10px;white-space:nowrap;color:#C9CED6;margin-left:auto}
 .palbar .toggle .tg{width:34px;height:20px;border-radius:999px;background:#2A2F37;position:relative;transition:background-color 160ms}
 .palbar .toggle .tg::after{content:"";position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:transform 180ms cubic-bezier(0.23,1,0.32,1)}
@@ -74,13 +78,30 @@ p{text-wrap:pretty}
 .who b{display:block;font-weight:600;font-size:16px;line-height:1.2}
 .who span span{display:block;font-size:14px;color:var(--ink-2);line-height:1.3}
 .links{display:flex;gap:4px;font-size:16px;position:relative}
-.links a{position:relative;z-index:1;text-decoration:none;color:var(--ink);padding:9px 14px;border-radius:999px;transition:color 200ms var(--ease)}
+.links a{position:relative;z-index:1;text-decoration:none;color:var(--ink);padding:9px 14px;border-radius:999px;transition:color 200ms var(--ease),transform 200ms var(--ease)}
 .links a[aria-current="true"]{color:var(--blue)}
-.links .ind{position:absolute;top:0;left:0;height:100%;border-radius:999px;background:var(--blue-soft);opacity:0;pointer-events:none;
-  transition:transform 280ms var(--ease),width 280ms var(--ease),opacity 200ms var(--ease)}
-.links a::after{content:"";position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform 260ms var(--ease)}
+/* aktywna sekcja: samo podkreślenie */
+.links a::after{content:"";position:absolute;left:14px;right:14px;bottom:4px;height:2px;border-radius:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform 260ms var(--ease)}
 .links a[aria-current="true"]::after{transform:scaleX(1)}
-@media (prefers-reduced-motion:reduce){.links .ind,.links a::after{transition:none}}
+/* tekst menu (dla efektu przewijania) */
+.links .roll{display:block;position:relative;overflow:hidden;line-height:1.25}
+.links .roll span{display:block;transition:transform 300ms var(--ease)}
+.links .roll span+span{position:absolute;left:0;top:100%}
+/* warianty hover (wybór w pasku podglądu) */
+.links .ind{position:absolute;top:0;left:0;height:100%;border-radius:999px;background:var(--blue-soft);opacity:0;pointer-events:none;transition:transform 280ms var(--ease),width 280ms var(--ease),opacity 200ms var(--ease)}
+html:not([data-hover="pill"]) .links .ind{display:none}
+.links a::before{content:"";position:absolute;pointer-events:none;opacity:0}
+@media (hover:hover) and (pointer:fine){
+  html[data-hover="roll"] .links a:hover .roll span{transform:translateY(-100%)}
+  html[data-hover="roll"] .links a:hover{color:var(--blue)}
+  html[data-hover="line"] .links a::before{left:14px;right:14px;bottom:4px;height:2px;border-radius:2px;background:currentColor;opacity:.35;transform:scaleX(0);transform-origin:right;transition:transform 280ms var(--ease)}
+  html[data-hover="line"] .links a:hover::before{transform:scaleX(1);transform-origin:left}
+  html[data-hover="dot"] .links a::before{left:50%;top:2px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--blue);transform:scale(0) translateY(4px);transition:transform 240ms var(--ease),opacity 200ms var(--ease)}
+  html[data-hover="dot"] .links a:hover::before{opacity:1;transform:scale(1) translateY(0)}
+  html[data-hover="dot"] .links a:hover{color:var(--blue)}
+  html[data-hover="lift"] .links a:hover{transform:translateY(-2px);color:var(--blue)}
+}
+@media (prefers-reduced-motion:reduce){.links .ind,.links a::after,.links a::before,.links .roll span{transition:none}}
 .nav .pill{height:42px;padding:0 18px;font-size:15px}
 
 /* ---------- hero ---------- */
@@ -278,6 +299,8 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   <span class="pb-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3a9 9 0 1 0 0 18c1 0 1.5-.8 1.5-1.6 0-.9-.6-1.4-.6-2.2 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7" r="1"/></svg>Podgląd projektu</span>
   <span class="pb-lab">Kolor: <b id="palname">Niebo</b></span>
   <div class="sw" id="sw"></div>
+  <span class="pb-sep" aria-hidden="true"></span>
+  <span class="pb-lab">Menu:</span><div class="seg" id="hovsel" role="group" aria-label="Efekt najechania w menu"></div>
   <span class="pb-sep" aria-hidden="true"></span>
   <button type="button" id="nervebtn" class="toggle" aria-pressed="false"><span>Nerwy w tle</span><i class="tg"></i></button>
   <button type="button" id="brainbtn" class="toggle t2" aria-pressed="false"><span>Czaszka w tle</span><i class="tg"></i></button>
@@ -510,6 +533,10 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   function brain(on){root.classList.toggle('brain',on);bb.setAttribute('aria-pressed',on);try{localStorage.setItem('emg-brain',on?'1':'0')}catch(e){}}
   bb.addEventListener('click',function(){brain(!root.classList.contains('brain'))});
   var b0=false; try{b0=localStorage.getItem('emg-brain')==='1'}catch(e){} brain(b0);
+  var HV=[['roll','Przewijanie'],['line','Kreska'],['dot','Kropka'],['lift','Uniesienie'],['pill','Pigułka']], hs=document.getElementById('hovsel');
+  function hov(id){root.setAttribute('data-hover',id);hs.querySelectorAll('button').forEach(function(b){b.setAttribute('aria-pressed',b.dataset.id===id)});try{localStorage.setItem('emg-hover',id)}catch(e){}}
+  HV.forEach(function(h){var b=document.createElement('button');b.type='button';b.dataset.id=h[0];b.textContent=h[1];b.addEventListener('click',function(){hov(h[0])});hs.appendChild(b)});
+  var h0='roll'; try{h0=localStorage.getItem('emg-hover')||'roll'}catch(e){} hov(h0);
   var nb=document.getElementById('nervebtn');
   function nerves(on){root.classList.toggle('nerves',on);nb.setAttribute('aria-pressed',on);try{localStorage.setItem('emg-nerves',on?'1':'0')}catch(e){}}
   nb.addEventListener('click',function(){nerves(!root.classList.contains('nerves'))});
@@ -572,19 +599,19 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   var nav=document.querySelector('.links'); if(!nav) return;
   var ind=nav.querySelector('.ind'), links=[].slice.call(nav.querySelectorAll('a')), cur=null;
   var targets=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  links.forEach(function(a){ var t=a.textContent; a.innerHTML='<span class="roll"><span>'+t+'</span><span aria-hidden="true">'+t+'</span></span>'; });
   function place(a){ if(!a){ind.style.opacity=0;return} ind.style.width=a.offsetWidth+'px'; ind.style.transform='translateX('+a.offsetLeft+'px)'; ind.style.opacity=1; }
   links.forEach(function(a){ a.addEventListener('mouseenter',function(){place(a)}); a.addEventListener('focus',function(){place(a)}); });
-  nav.addEventListener('mouseleave',function(){place(cur)});
+  nav.addEventListener('mouseleave',function(){place(null)});
   function spy(){
     var line=Math.min(window.innerHeight*0.25,220), best=null;
     targets.forEach(function(t,i){ if(!t) return; var el=(t.tagName==='SECTION'&&t.querySelector('.wrap'))||t; if(el.getBoundingClientRect().top<=line) best=i; });
     if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4) best=links.length-1;
     var a=best===null?null:links[best];
-    if(a!==cur){ links.forEach(function(l){l.removeAttribute('aria-current')}); if(a) a.setAttribute('aria-current','true'); cur=a; if(!nav.matches(':hover')) place(cur); }
+    if(a!==cur){ links.forEach(function(l){l.removeAttribute('aria-current')}); if(a) a.setAttribute('aria-current','true'); cur=a; }
   }
   window.addEventListener('scroll',spy,{passive:true});
-  window.addEventListener('resize',function(){place(cur)}); spy();
-  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){place(cur)});
+  spy();
 })();
 
 /* #cennik otwiera pełny cennik */

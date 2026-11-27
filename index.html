@@ -19,6 +19,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
+section[id],[id="cennik"],[id="kontakt"]{scroll-margin-top:96px}
 body{margin:0;background:var(--bg);transition:background-color 200ms;color:var(--ink);font:400 18px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
 ::selection{background:var(--blue);color:#fff}
 :focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:12px}
@@ -72,8 +73,14 @@ p{text-wrap:pretty}
 .who img{width:44px;height:44px;border-radius:50%;object-fit:cover}
 .who b{display:block;font-weight:600;font-size:16px;line-height:1.2}
 .who span span{display:block;font-size:14px;color:var(--ink-2);line-height:1.3}
-.links{display:flex;gap:28px;font-size:16px}
-.links a{text-decoration:none;color:var(--ink)}
+.links{display:flex;gap:4px;font-size:16px;position:relative}
+.links a{position:relative;z-index:1;text-decoration:none;color:var(--ink);padding:9px 14px;border-radius:999px;transition:color 200ms var(--ease)}
+.links a[aria-current="true"]{color:var(--blue)}
+.links .ind{position:absolute;top:0;left:0;height:100%;border-radius:999px;background:var(--blue-soft);opacity:0;pointer-events:none;
+  transition:transform 280ms var(--ease),width 280ms var(--ease),opacity 200ms var(--ease)}
+.links a::after{content:"";position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:2px;background:var(--blue);transform:scaleX(0);transform-origin:left;transition:transform 260ms var(--ease)}
+.links a[aria-current="true"]::after{transform:scaleX(1)}
+@media (prefers-reduced-motion:reduce){.links .ind,.links a::after{transition:none}}
 .nav .pill{height:42px;padding:0 18px;font-size:15px}
 
 /* ---------- hero ---------- */
@@ -126,6 +133,12 @@ html.nerves .hero-nerves{display:block;opacity:.5}
 @keyframes imp{0%{stroke-dashoffset:0;opacity:0}8%{opacity:.85}85%{opacity:.85}100%{stroke-dashoffset:-1000;opacity:0}}
 @media (prefers-reduced-motion:reduce){.hero-nerves .imp{display:none}}
 @media (max-width:960px){.hero-brain{width:220px;height:440px;right:-30px;top:10px}html.brain .hero-brain{opacity:.12}}
+@media (hover:hover) and (pointer:fine){
+  .tile,.step,.clinics span{transition:transform 220ms var(--ease),box-shadow 220ms var(--ease)}
+  .tile:hover,.step:hover{transform:translateY(-3px);box-shadow:0 14px 34px -14px rgba(20,30,60,.25)}
+  .clinics span:hover{transform:translateY(-2px);box-shadow:0 6px 18px -8px rgba(20,30,60,.2),0 0 0 1px rgba(0,0,0,.04)}
+  .tile-photo img{transition:transform 400ms var(--ease)} .tile-photo:hover img{transform:scale(1.03)}
+}
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);margin:112px 0 0}
 .stat{text-align:center;padding:12px 16px}
@@ -281,6 +294,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
       <a href="#o-mnie">O mnie</a>
       <a href="#umowy">Umowy</a>
       <a href="#kontakt">Kontakt</a>
+      <span class="ind" aria-hidden="true"></span>
     </nav>
     <a class="pill pill-dark" href="tel:+48601143744"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Zadzwoń</a>
   </div>
@@ -551,6 +565,26 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   draw();
   var tm; window.addEventListener('resize',function(){clearTimeout(tm);tm=setTimeout(draw,150)});
   if(document.fonts&&document.fonts.ready) document.fonts.ready.then(draw);
+})();
+
+/* menu: podświetlenie pod kursorem i aktywna sekcja przy przewijaniu */
+(function(){
+  var nav=document.querySelector('.links'); if(!nav) return;
+  var ind=nav.querySelector('.ind'), links=[].slice.call(nav.querySelectorAll('a')), cur=null;
+  var targets=links.map(function(a){return document.querySelector(a.getAttribute('href'))});
+  function place(a){ if(!a){ind.style.opacity=0;return} ind.style.width=a.offsetWidth+'px'; ind.style.transform='translateX('+a.offsetLeft+'px)'; ind.style.opacity=1; }
+  links.forEach(function(a){ a.addEventListener('mouseenter',function(){place(a)}); a.addEventListener('focus',function(){place(a)}); });
+  nav.addEventListener('mouseleave',function(){place(cur)});
+  function spy(){
+    var line=Math.min(window.innerHeight*0.25,220), best=null;
+    targets.forEach(function(t,i){ if(!t) return; var el=(t.tagName==='SECTION'&&t.querySelector('.wrap'))||t; if(el.getBoundingClientRect().top<=line) best=i; });
+    if(window.innerHeight+window.scrollY>=document.documentElement.scrollHeight-4) best=links.length-1;
+    var a=best===null?null:links[best];
+    if(a!==cur){ links.forEach(function(l){l.removeAttribute('aria-current')}); if(a) a.setAttribute('aria-current','true'); cur=a; if(!nav.matches(':hover')) place(cur); }
+  }
+  window.addEventListener('scroll',spy,{passive:true});
+  window.addEventListener('resize',function(){place(cur)}); spy();
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(function(){place(cur)});
 })();
 
 /* #cennik otwiera pełny cennik */

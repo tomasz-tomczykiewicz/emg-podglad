@@ -110,18 +110,19 @@ p{text-wrap:pretty}
 .tile-sand .cap span{display:block;font-size:14px;color:var(--ink-2);margin-top:2px}
 .tile-sand{text-decoration:none;color:var(--ink)}
 /* czaszka w tle (opcja z paska podglądu) */
-.hero-brain{display:none;position:absolute;top:24px;right:max(0px,calc(50% - 700px));width:340px;height:670px;z-index:-1;
-  background:var(--blue);opacity:.32;
-  -webkit-mask:url(mozg-maska.png) center/contain no-repeat;mask:url(mozg-maska.png) center/contain no-repeat}
-html.brain .hero-brain{display:block}
-.hero-nerves{display:none;position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;color:var(--blue);-webkit-mask-image:radial-gradient(ellipse 38% 46% at 50% 44%,transparent 55%,#000 100%);mask-image:radial-gradient(ellipse 38% 46% at 50% 44%,transparent 55%,#000 100%)}
+.hero-brain{position:absolute;top:0;bottom:0;right:0;width:50%;z-index:-1;
+  background:var(--blue);opacity:0;transition:opacity 300ms;
+  -webkit-mask:url(mozg-maska.png) right center/contain no-repeat;mask:url(mozg-maska.png) right center/contain no-repeat}
+html.brain .hero-brain{opacity:.17}
+.hero-nerves{display:none;position:absolute;inset:0;width:100%;height:100%;z-index:-1;pointer-events:none;color:var(--blue);
+  -webkit-mask-image:radial-gradient(ellipse 30% 30% at 50% 38%,transparent 35%,#000 100%);mask-image:radial-gradient(ellipse 30% 30% at 50% 38%,transparent 35%,#000 100%)}
 html.nerves .hero-nerves{display:block}
-.hero-nerves path{fill:none;stroke:currentColor;stroke-linecap:round;opacity:.22}
-.hero-nerves circle{fill:currentColor;opacity:.22}
-.hero-nerves .imp{opacity:.7;stroke-dasharray:10 900;stroke-dashoffset:910;animation:imp 5.5s cubic-bezier(0.45,0,0.55,1) infinite}
-@keyframes imp{to{stroke-dashoffset:0}}
-@media (prefers-reduced-motion:reduce){.hero-nerves .imp{display:none}}
-@media (max-width:960px){.hero-brain{width:220px;height:440px;right:-30px;top:10px;opacity:.22}}
+.hero-nerves path{fill:none;stroke:currentColor;stroke-linecap:round;stroke-linejoin:round}
+.hero-nerves .t{opacity:.34}
+.hero-nerves .b{opacity:.24}
+.hero-nerves .d{opacity:.20}
+.hero-nerves circle{fill:currentColor;opacity:.30}
+@media (max-width:960px){.hero-brain{width:85%}html.brain .hero-brain{opacity:.10}}
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);margin:112px 0 0}
 .stat{text-align:center;padding:12px 16px}
@@ -284,7 +285,7 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
 
 <main>
   <section class="hero" style="padding-top:84px">
-    <svg class="hero-nerves" id="nerves" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" aria-hidden="true"></svg>
+    <svg class="hero-nerves" id="nerves" aria-hidden="true"></svg>
     <div class="hero-brain" aria-hidden="true"></div>
     <div class="wrap">
       <span class="badge up" id="status"><i></i><span>Przyjmuję pon–pt od 9:00</span></span>
@@ -498,23 +499,51 @@ footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
   var n0=false; try{n0=localStorage.getItem('emg-nerves')==='1'}catch(e){} nerves(n0);
 })();
 
-/* nerwy w tle: rozgałęzione włókna (rysunek poglądowy) */
+/* nerwy w tle: włókna wychodzą z rdzenia i mózgu czaszki i rozchodzą się po tle (rysunek poglądowy) */
 (function(){
-  var svg=document.getElementById('nerves'); if(!svg) return;
-  var NS='http://www.w3.org/2000/svg', seed=42, out='';
-  function r(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
-  function br(x,y,a,len,w,d,first){
-    var ex=x+Math.cos(a)*len, ey=y+Math.sin(a)*len, bend=(r()-.5)*len*.5;
-    var cx=(x+ex)/2+Math.cos(a+Math.PI/2)*bend, cy=(y+ey)/2+Math.sin(a+Math.PI/2)*bend;
-    var dd='M'+x.toFixed(1)+' '+y.toFixed(1)+'Q'+cx.toFixed(1)+' '+cy.toFixed(1)+' '+ex.toFixed(1)+' '+ey.toFixed(1);
-    out+='<path d="'+dd+'" stroke-width="'+w.toFixed(2)+'"/>';
-    if(first) out+='<path class="imp" d="'+dd+'" stroke-width="'+(w+.6).toFixed(2)+'" style="animation-delay:'+(r()*4).toFixed(2)+'s"/>';
-    if(d<=0){ out+='<circle cx="'+ex.toFixed(1)+'" cy="'+ey.toFixed(1)+'" r="'+(1.5+r()*1.5).toFixed(1)+'"/>'; return; }
-    var n=r()<.3?3:2;
-    for(var i=0;i<n;i++) br(ex,ey,a+(i-(n-1)/2)*(.45+r()*.35),len*(.62+r()*.18),w*.68,d-1,first&&i===0);
+  var svg=document.getElementById('nerves'), hero=svg&&svg.parentNode, skull=hero&&hero.querySelector('.hero-brain');
+  if(!svg||!skull) return;
+  var IW=620, IH=1225;
+  /* punkty startu na obrazie czaszki (0..1): rdzeń, szyja, pień mózgu, mózg, twarz */
+  var ROOTS=[[.86,.58,3.45],[.88,.68,3.10],[.86,.78,2.75],[.84,.90,2.55],[.72,.40,3.55],[.64,.18,3.75],[.55,.55,2.90]];
+  function draw(){
+    var hr=hero.getBoundingClientRect(), br=skull.getBoundingClientRect();
+    var W=hr.width, H=hr.height; if(!W||!H) return;
+    svg.setAttribute('viewBox','0 0 '+W.toFixed(0)+' '+H.toFixed(0));
+    var sc=Math.min(br.width/IW, br.height/IH), iw=IW*sc, ih=IH*sc;
+    var ix=br.right-hr.left-iw, iy=br.top-hr.top+(br.height-ih)/2;
+    var seed=7, out='';
+    function r(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
+    function smooth(p){ /* Catmull-Rom -> bezier */
+      var d='M'+p[0][0].toFixed(1)+' '+p[0][1].toFixed(1);
+      for(var i=0;i<p.length-1;i++){var a=p[i-1]||p[i],b=p[i],c=p[i+1],e=p[i+2]||c;
+        d+='C'+(b[0]+(c[0]-a[0])/6).toFixed(1)+' '+(b[1]+(c[1]-a[1])/6).toFixed(1)+' '+(c[0]-(e[0]-b[0])/6).toFixed(1)+' '+(c[1]-(e[1]-b[1])/6).toFixed(1)+' '+c[0].toFixed(1)+' '+c[1].toFixed(1);}
+      return d;
+    }
+    function fiber(x,y,ang,len,w,depth,cls){
+      var step=16, n=Math.max(3,Math.round(len/step)), pts=[[x,y]], ph=r()*6.28, amp=.05+r()*.05, drift=(r()-.5)*.012;
+      for(var i=0;i<n;i++){ ang+=drift+Math.sin(i*.22+ph)*amp+(r()-.5)*.14; x+=Math.cos(ang)*step; y+=Math.sin(ang)*step; pts.push([x,y]); }
+      /* zwężanie: kilka odcinków o malejącej grubości */
+      var parts=4, per=Math.ceil(pts.length/parts);
+      for(var k=0;k<parts;k++){ var seg=pts.slice(k*per, (k+1)*per+1); if(seg.length<2) continue;
+        out+='<path class="'+cls+'" d="'+smooth(seg)+'" stroke-width="'+(w*(1-k*.2)).toFixed(2)+'"/>'; }
+      if(depth>0){
+        for(var j=3;j<pts.length-2;j+=3+Math.floor(r()*3)){
+          if(r()<.62){ var p=pts[j], q=pts[j+1], a0=Math.atan2(q[1]-p[1],q[0]-p[0]);
+            fiber(p[0],p[1],a0+(r()<.5?-1:1)*(.4+r()*.55),len*(.3+r()*.25),w*.58,depth-1,depth>1?'b':'d'); }
+        }
+      }
+      var e=pts[pts.length-1], l=pts[pts.length-2], ae=Math.atan2(e[1]-l[1],e[0]-l[0]);
+      for(var t=0;t<3;t++){ var aa=ae+(t-1)*.55+(r()-.5)*.2, ll=8+r()*10;
+        out+='<path class="d" d="M'+e[0].toFixed(1)+' '+e[1].toFixed(1)+'Q'+(e[0]+Math.cos(aa)*ll*.6+(r()-.5)*4).toFixed(1)+' '+(e[1]+Math.sin(aa)*ll*.6+(r()-.5)*4).toFixed(1)+' '+(e[0]+Math.cos(aa)*ll).toFixed(1)+' '+(e[1]+Math.sin(aa)*ll).toFixed(1)+'" stroke-width=".7"/>'; }
+      out+='<circle cx="'+e[0].toFixed(1)+'" cy="'+e[1].toFixed(1)+'" r="'+(1.2+r()*1.2).toFixed(1)+'"/>';
+    }
+    ROOTS.forEach(function(t){ fiber(ix+t[0]*iw, iy+t[1]*ih, t[2]+(r()-.5)*.15, W*(.42+r()*.22), 2.4, 3, 't'); });
+    svg.innerHTML=out;
   }
-  [[-20,200,.35],[-20,640,-.25],[1460,240,2.75],[1460,700,3.45]].forEach(function(t){ br(t[0],t[1],t[2],210+r()*50,2.4,4,true) });
-  svg.innerHTML=out;
+  draw();
+  var tm; window.addEventListener('resize',function(){clearTimeout(tm);tm=setTimeout(draw,150)});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(draw);
 })();
 
 /* #cennik otwiera pełny cennik */

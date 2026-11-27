@@ -109,18 +109,11 @@ p{text-wrap:pretty}
 .tile-sand .cap span{display:block;font-size:14px;color:var(--ink-2);margin-top:2px}
 .tile-sand{text-decoration:none;color:var(--ink)}
 /* czaszka w tle (opcja z paska podglądu) */
-.hero-brain{display:none;position:absolute;top:40px;right:max(20px,calc(50% - 640px));width:420px;height:560px;z-index:-1;
-  background:url(mozg-tlo.jpg) 50% 30%/cover no-repeat;opacity:.55;
-  -webkit-mask-image:radial-gradient(closest-side,#000 55%,transparent 100%);mask-image:radial-gradient(closest-side,#000 55%,transparent 100%)}
-html.brain .hero{background:color-mix(in srgb,var(--blue) 22%,#071621);color:#fff}
-html.brain .hero::before{display:none}
+.hero-brain{display:none;position:absolute;top:24px;right:max(0px,calc(50% - 700px));width:340px;height:670px;z-index:-1;
+  background:var(--blue);opacity:.32;
+  -webkit-mask:url(mozg-maska.png) center/contain no-repeat;mask:url(mozg-maska.png) center/contain no-repeat}
 html.brain .hero-brain{display:block}
-html.brain .hero h1 em{color:#7FD8EA}
-html.brain .hero .sub{color:#C3D6DC}
-html.brain .badge{background:rgba(255,255,255,.12);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.15)}
-html.brain .hero .pill-dark{background:#fff;color:var(--ink)}
-html.brain .hero .pill-light{background:rgba(255,255,255,.1);color:#fff;box-shadow:0 0 0 1px rgba(255,255,255,.25)}
-@media (max-width:960px){.hero-brain{width:300px;height:400px;right:-40px;top:20px;opacity:.35}}
+@media (max-width:960px){.hero-brain{width:220px;height:440px;right:-30px;top:10px;opacity:.22}}
 /* ---------- stats ---------- */
 .stats{display:grid;grid-template-columns:repeat(3,1fr);margin:112px 0 0}
 .stat{text-align:center;padding:12px 16px}

@@ -1,0 +1,475 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Badania EMG i ENG – dr hab. n. med. Kazimierz Tomczykiewicz</title>
+<meta name="description" content="Prywatna pracownia EMG i gabinet neurologiczny, ul. Emilii Plater 25, Warszawa. Badania EMG, ENG, SF EMG, SSR, USG nerwów. Cennik i zapisy: 601 143 744.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Hanken+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F7F2; --b1:#C9F0DC; --b2:#EAF6C8; --b3:#FFE0CC; --t1:#BFEBD6; --t2:#DDF3C4; --t3:#F4F6C8; --c1:#BFEBD6; --c2:#DDF3C4; --c3:#FFE3CF; --card:#FFFFFF; --ink:#151515; --ink-2:#5E6166; --line:#E6E4DE;
+  --blue:#2E7D5B; --blue-soft:#DDF2E6; --sand:#FCE3D3;
+  --serif:"Instrument Serif",Georgia,serif; --sans:"Hanken Grotesk",system-ui,sans-serif;
+  --ease:cubic-bezier(0.23,1,0.32,1);
+  --r-lg:28px; --r-md:20px;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);transition:background-color 200ms;color:var(--ink);font:400 18px/1.55 var(--sans);-webkit-font-smoothing:antialiased}
+::selection{background:var(--blue);color:#fff}
+:focus-visible{outline:2px solid var(--blue);outline-offset:3px;border-radius:12px}
+a{color:inherit}
+img{display:block;max-width:100%}
+h1,h2,h3{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-.02em;line-height:1.02;text-wrap:balance}
+em{font-style:italic}
+p{text-wrap:pretty}
+.wrap{width:min(1120px,100% - 40px);margin:0 auto}
+
+
+/* ---------- podgląd kolorów (tymczasowo) ---------- */
+.palbar{background:#111;color:#ddd;font:500 13px/1 var(--sans)}
+.palbar .wrap{display:flex;align-items:center;gap:14px;min-height:52px;flex-wrap:wrap;padding:8px 0}
+.palbar b{color:#fff;font-weight:600;white-space:nowrap}
+.palbar .sw{display:flex;gap:8px;flex-wrap:wrap}
+.palbar button{all:unset;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:6px 10px 6px 6px;border-radius:999px;background:#222;color:#ccc;transition:background-color 150ms}
+.palbar button i{width:18px;height:18px;border-radius:50%;background:linear-gradient(135deg,var(--a) 0 50%,var(--s) 50% 100%);box-shadow:0 0 0 1px rgba(255,255,255,.25)}
+.palbar button[aria-pressed="true"]{background:#fff;color:#111}
+.palbar button:focus-visible{outline:2px solid #fff;outline-offset:2px}
+
+/* ---------- pills ---------- */
+.pill{display:inline-flex;align-items:center;gap:10px;height:48px;padding:0 22px;border-radius:999px;font:500 16px/1 var(--sans);text-decoration:none;white-space:nowrap;transition:transform 160ms var(--ease),background-color 160ms var(--ease),box-shadow 160ms var(--ease)}
+.pill:active{transform:scale(.97)}
+.pill-dark{background:var(--ink);color:#fff}
+.pill-light{background:#fff;color:var(--ink);box-shadow:0 1px 2px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.04)}
+.pill svg{width:17px;height:17px;flex:none}
+@media (hover:hover) and (pointer:fine){
+  .pill-dark:hover{background:#000;transform:translateY(-1px)}
+  .pill-light:hover{box-shadow:0 4px 14px rgba(0,0,0,.08),0 0 0 1px rgba(0,0,0,.05);transform:translateY(-1px)}
+}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px);background:color-mix(in srgb,var(--bg) 80%,transparent)}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;gap:20px}
+.who{display:flex;align-items:center;gap:12px;text-decoration:none}
+.who img{width:44px;height:44px;border-radius:50%;object-fit:cover}
+.who b{display:block;font-weight:600;font-size:16px;line-height:1.2}
+.who span span{display:block;font-size:14px;color:var(--ink-2);line-height:1.3}
+.links{display:flex;gap:28px;font-size:16px}
+.links a{text-decoration:none;color:var(--ink)}
+.nav .pill{height:42px;padding:0 18px;font-size:15px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;text-align:center;padding:84px 0 56px;overflow:hidden;isolation:isolate}
+.hero::before{content:"";position:absolute;inset:-20% -10% auto;height:120%;z-index:-1;
+  background:
+    radial-gradient(40% 50% at 22% 30%, var(--b1) 0%, transparent 70%),
+    radial-gradient(35% 45% at 80% 22%, var(--b2) 0%, transparent 70%),
+    radial-gradient(45% 40% at 55% 75%, var(--b3) 0%, transparent 70%);
+  filter:blur(30px)}
+.badge{display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;background:rgba(255,255,255,.75);font-size:15px;font-weight:500;box-shadow:0 0 0 1px rgba(0,0,0,.04)}
+.badge i{width:8px;height:8px;border-radius:50%;background:#22A25A;box-shadow:0 0 0 4px rgba(34,162,90,.15)}
+.badge.closed i{background:#A3A7AD;box-shadow:none}
+.hero h1{font-size:clamp(52px,8vw,104px);margin:28px auto 22px}
+.hero h1 em{color:var(--blue)}
+.hero .sub{max-width:560px;margin:0 auto 34px;font-size:20px;color:var(--ink-2)}
+.hero .actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px}
+
+/* ---------- showcase cards ---------- */
+.show{display:grid;grid-template-columns:1fr 1.25fr 1fr;gap:16px;margin-top:64px;text-align:left}
+.tile{border-radius:var(--r-lg);overflow:hidden;position:relative;min-height:300px}
+.tile-photo img{width:100%;height:100%;object-fit:cover;object-position:50% 20%;position:absolute;inset:0}
+.tile-blue{background:linear-gradient(160deg,var(--t1) 0%,var(--t2) 60%,var(--t3) 100%);color:var(--ink);padding:28px;display:flex;flex-direction:column;justify-content:space-between}
+.tile-blue h3{font-size:34px;line-height:1.05}
+.tile-blue p{margin:8px 0 0;font-size:16px;color:#3F4A44}
+.tile-blue svg{width:100%;height:120px}
+.tile-blue path{fill:none;stroke:var(--blue);stroke-width:1.3;stroke-linejoin:round;opacity:.95}
+.tile-sand{background:#fff;display:block;box-shadow:0 0 0 1px var(--line)}
+.tile-sand img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;transition:transform 300ms var(--ease)}
+@media (hover:hover) and (pointer:fine){ .tile-sand:hover img{transform:scale(1.03)} }
+
+/* ---------- stats ---------- */
+.stats{display:grid;grid-template-columns:repeat(3,1fr);margin:112px 0 0}
+.stat{text-align:center;padding:12px 16px}
+.stat + .stat{border-left:1px solid var(--line)}
+.stat b{display:block;font:italic 400 clamp(56px,7vw,88px)/1 var(--serif);letter-spacing:-.02em}
+.stat span{display:block;margin-top:10px;font-size:16px;color:var(--ink-2)}
+
+/* ---------- sections ---------- */
+section{padding:120px 0 0}
+.title{max-width:640px;margin-bottom:48px}
+.title h2{font-size:clamp(40px,5vw,64px)}
+.title p{margin:16px 0 0;color:var(--ink-2);font-size:19px}
+.center{text-align:center;margin-left:auto;margin-right:auto}
+
+/* concerns */
+.concerns{display:grid;grid-template-columns:1.1fr 1fr;gap:48px;align-items:start}
+.clist{list-style:none;margin:0;padding:0}
+.clist button{all:unset;cursor:pointer;display:block;font:400 clamp(30px,3.6vw,46px)/1.15 var(--serif);letter-spacing:-.02em;color:#B5B3AD;padding:6px 0;transition:color 200ms var(--ease)}
+.clist button[aria-selected="true"]{color:var(--ink)}
+.clist button[aria-selected="true"]::before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--blue);margin-right:14px;vertical-align:middle;transform:translateY(-4px)}
+.clist button:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+@media (hover:hover) and (pointer:fine){ .clist button:hover{color:var(--ink)} }
+.cpanel{position:sticky;top:110px;background:var(--card);border-radius:var(--r-lg);padding:34px;box-shadow:0 1px 2px rgba(0,0,0,.04),0 20px 50px -20px rgba(0,0,0,.12)}
+.cpanel .kind{display:inline-block;font-size:14px;font-weight:600;color:var(--blue);background:var(--blue-soft);padding:6px 12px;border-radius:999px}
+.cpanel h3{font-size:40px;margin:18px 0 12px}
+.cpanel p{margin:0;color:var(--ink-2)}
+.cpanel .price{display:flex;align-items:baseline;justify-content:space-between;gap:16px;margin-top:28px;padding-top:20px;border-top:1px solid var(--line)}
+.cpanel .price span{color:var(--ink-2);font-size:15px}
+.cpanel .price b{font:400 44px/1 var(--serif);letter-spacing:-.01em;white-space:nowrap}
+.cpanel .fade{transition:opacity 180ms var(--ease),transform 180ms var(--ease)}
+.cpanel.swap .fade{opacity:0;transform:translateY(4px)}
+
+/* full price list */
+details.prices{margin-top:56px;background:var(--card);border-radius:var(--r-lg);padding:8px 30px}
+details.prices summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:20px 0;font-weight:600;font-size:18px}
+details.prices summary::-webkit-details-marker{display:none}
+details.prices summary::after{content:"+";font:400 30px/1 var(--sans);color:var(--ink-2);transition:transform 200ms var(--ease)}
+details.prices[open] summary::after{transform:rotate(45deg)}
+.ptable{width:100%;border-collapse:collapse;margin-bottom:22px;font-variant-numeric:tabular-nums}
+.ptable td{padding:13px 0;border-top:1px solid var(--line)}
+.ptable td:last-child{text-align:right;white-space:nowrap;font-weight:600;padding-left:20px}
+.ptable .note td{color:var(--ink-2);font-size:15px;text-align:left;font-weight:400;white-space:normal}
+
+/* about */
+.about{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}
+.about .ph{border-radius:var(--r-lg);overflow:hidden;min-height:520px;position:relative}
+.about .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%}
+.about .bio{background:var(--card);border-radius:var(--r-lg);padding:44px}
+.about .bio h2{font-size:clamp(38px,4.4vw,56px)}
+.about .bio .role{color:var(--blue);margin:10px 0 24px;font-weight:500}
+.about .bio p{margin:0 0 14px;color:var(--ink-2)}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.chip{padding:8px 14px;border-radius:999px;background:var(--bg);font-size:15px}
+.chip.dark{background:var(--ink);color:#fff}
+
+/* clinics */
+.clinics{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;max-width:900px;margin:0 auto}
+.clinics span{padding:12px 20px;border-radius:999px;background:var(--card);font-size:16px;box-shadow:0 0 0 1px rgba(0,0,0,.04)}
+.clinics small{color:var(--ink-2);margin-left:6px;font-size:15px}
+
+/* contact */
+.contact{margin:120px auto 0;border-radius:36px;overflow:hidden;position:relative;color:var(--ink);padding:72px 56px;
+  background:linear-gradient(150deg,var(--c1) 0%,var(--c2) 50%,var(--c3) 100%)}
+.contact h2{font-size:clamp(40px,5vw,64px)}
+.contact .tel{display:inline-block;margin:18px 0 44px;font:italic 400 clamp(56px,8vw,104px)/1 var(--serif);text-decoration:none;letter-spacing:-.01em}
+.cgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.cbox{background:rgba(255,255,255,.6);border-radius:var(--r-md);padding:24px}
+.cbox h3{font:600 14px/1 var(--sans);letter-spacing:.02em;margin-bottom:14px;opacity:.85}
+.cbox p{margin:0 0 8px;font-size:16px}
+.cbox table{width:100%;border-collapse:collapse;font-size:16px;font-variant-numeric:tabular-nums}
+.cbox td{padding:5px 0}
+.cbox td:last-child{text-align:right}
+.cbox tr.today td{font-weight:600}
+.cbox tr.today td:first-child::after{content:" · dziś";font-weight:400;opacity:.8}
+.contact .pill-light{margin-top:8px}
+
+footer{padding:40px 0 48px;color:var(--ink-2);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+
+.callbar{display:none}
+
+/* entrance */
+@media (prefers-reduced-motion:no-preference){
+  .up{opacity:0;transform:translateY(14px);animation:up 700ms var(--ease) forwards}
+  .d1{animation-delay:80ms}.d2{animation-delay:160ms}.d3{animation-delay:240ms}.d4{animation-delay:340ms}
+  @keyframes up{to{opacity:1;transform:none}}
+}
+
+/* responsive */
+@media (max-width:960px){
+  .links{display:none}
+  .show{grid-template-columns:1fr 1fr}
+  .tile-sand{display:none}
+  .concerns,.about{grid-template-columns:1fr}
+  .cpanel{position:static}
+  .cgrid{grid-template-columns:1fr}
+}
+@media (max-width:600px){
+  body{padding-bottom:84px}
+  .nav .pill{display:none}
+  .hero{padding-top:48px}
+  .hero .sub{font-size:18px}
+  .show{grid-template-columns:1fr}
+  .tile{min-height:320px}
+  .stats{grid-template-columns:1fr;margin-top:72px}
+  .stat + .stat{border-left:0;border-top:1px solid var(--line);padding-top:24px;margin-top:12px}
+  section{padding-top:88px}
+  .about .bio{padding:28px}
+  .about .ph{min-height:380px}
+  .contact{padding:48px 22px;border-radius:28px;margin-top:88px}
+  details.prices{padding:4px 20px}
+  .callbar{display:block;position:fixed;left:12px;right:12px;bottom:12px;z-index:30}
+  .callbar .pill{width:100%;justify-content:center;height:56px;font-size:17px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+}
+</style>
+</head>
+<body>
+
+<div class="palbar" role="group" aria-label="Wybór kolorów (podgląd)"><div class="wrap"><b>Kolory (podgląd):</b><div class="sw" id="sw"></div></div></div>
+<header class="nav">
+  <div class="wrap">
+    <a class="who" href="#">
+      <span><b>Kazimierz Tomczykiewicz</b><span>Neurolog · Pracownia EMG, Warszawa</span></span>
+    </a>
+    <nav class="links" aria-label="Główna">
+      <a href="#badania">Badania</a>
+      <a href="#o-mnie">O mnie</a>
+      <a href="#umowy">Umowy</a>
+      <a href="#kontakt">Kontakt</a>
+    </nav>
+    <a class="pill pill-dark" href="tel:+48601143744"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Zadzwoń</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero" style="padding-top:84px">
+    <div class="wrap">
+      <span class="badge up" id="status"><i></i><span>Przyjmuję pon–pt od 9:00</span></span>
+      <h1 class="up d1">Badania <em>EMG</em> i&nbsp;<em>ENG</em><br>w centrum Warszawy</h1>
+      <p class="sub up d2">Diagnostyka nerwów i mięśni u neurologa z ponad 35-letnim doświadczeniem. Badanie wykonuję i opisuję osobiście.</p>
+      <div class="actions up d3">
+        <a class="pill pill-dark" href="tel:+48601143744"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Umów badanie: 601 143 744</a>
+        <a class="pill pill-light" href="#badania">Zobacz cennik</a>
+      </div>
+
+      <div class="show up d4">
+        <div class="tile tile-photo"><img src="dr-tomczykiewicz.jpg" alt="dr hab. n. med. Kazimierz Tomczykiewicz"></div>
+        <div class="tile tile-blue">
+          <div>
+            <h3>Aparat Nicolet EDX Viking</h3>
+            <p>Nowoczesny sprzęt do badań EMG i ENG, wyprodukowany w 2024 roku.</p>
+          </div>
+          <svg id="trace" viewBox="0 0 600 120" preserveAspectRatio="none" aria-hidden="true"></svg>
+        </div>
+        <a class="tile tile-sand" href="#badania"><img src="zapisy/fala-f-wycinek.jpg" alt="Fragment wydruku z badania ENG: fala F"></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><b>od 1987</b><span>w zawodzie lekarskim</span></div>
+      <div class="stat"><b>41 000+</b><span>zbadanych pacjentów</span></div>
+      <div class="stat"><b>od 1999</b><span>kieruję pracownią EMG</span></div>
+    </div>
+  </div>
+
+  <section id="badania">
+    <div class="wrap">
+      <div class="title">
+        <h2>Z czym <em>przychodzą</em> pacjenci</h2>
+        <p>Wybierz objaw, a zobaczysz, jakie badanie wykonuję i ile kosztuje.</p>
+      </div>
+      <div class="concerns">
+        <ul class="clist" role="tablist" id="clist"></ul>
+        <div class="cpanel" id="cpanel" role="tabpanel" aria-live="polite">
+          <div class="fade">
+            <span class="kind" id="c-kind"></span>
+            <h3 id="c-title"></h3>
+            <p id="c-text"></p>
+            <div class="price"><span id="c-note"></span><b id="c-price"></b></div>
+          </div>
+        </div>
+      </div>
+
+      <details class="prices">
+        <summary>Pełny cennik badań</summary>
+        <table class="ptable">
+          <tr><td>Próba tężyczkowa</td><td>300 zł</td></tr>
+          <tr><td>Próba miasteniczna (2 mięśnie)</td><td>300 zł</td></tr>
+          <tr><td>SF EMG, badanie pojedynczego włókna mięśniowego</td><td>650 zł</td></tr>
+          <tr><td>Badanie SSR</td><td>150 zł</td></tr>
+          <tr><td>1 nerw długi: włókna czuciowe, ruchowe i fala F</td><td>150 zł</td></tr>
+          <tr><td>1 nerw krótki: włókna ruchowe</td><td>70 zł</td></tr>
+          <tr><td>1 mięsień metodą ilościową</td><td>200 zł</td></tr>
+          <tr><td>1 mięsień metodą jakościową</td><td>100 zł</td></tr>
+          <tr><td>Testy porównawcze</td><td>50 zł</td></tr>
+          <tr><td>Badanie metodą krótkich segmentów</td><td>50 zł</td></tr>
+          <tr><td>Jednorazowa elektroda igłowa</td><td>50 zł</td></tr>
+          <tr class="note"><td colspan="2">U dzieci do 8 lat cena jest wyższa o 100%, powyżej 8 lat o 50%. Wykonuję też USG nerwów i leczenie toksyną botulinową.</td></tr>
+        </table>
+      </details>
+    </div>
+  </section>
+
+  <section id="o-mnie">
+    <div class="wrap about">
+      <div class="ph"><img src="dr-tomczykiewicz.jpg" alt="dr hab. n. med. Kazimierz Tomczykiewicz" loading="lazy"></div>
+      <div class="bio">
+        <h2>Kazimierz <em>Tomczykiewicz</em></h2>
+        <p class="role">dr hab. n. med., prof. nadzw., specjalista neurolog</p>
+        <p>Lekarzem jestem od 1987 roku, specjalistą neurologiem od 1997. Od 1993 roku pracowałem w Klinice Neurologicznej WIM, a od 1999 roku kierowałem jej Pracownią EMG. Od 2017 roku współpracuję z Poradnią Chorób Mięśni Warszawskiego Uniwersytetu Medycznego.</p>
+        <p>Jestem współautorem podręczników „Neurologia” (Medical Tribune Polska, 2019) i „Choroby nerwowo-mięśniowe” (PZWL, 2023).</p>
+        <div class="chips">
+          <span class="chip dark">Kursy i staże</span>
+          <span class="chip">Londyn</span><span class="chip">Berlin</span><span class="chip">Stambuł</span>
+          <span class="chip">Uppsala</span><span class="chip">Lubeka</span><span class="chip">Spa</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="umowy">
+    <div class="wrap">
+      <div class="title center">
+        <h2>Umowy <em>bezgotówkowe</em></h2>
+        <p>Pracownia ma umowy na badania w trybie bezgotówkowym z tymi przychodniami.</p>
+      </div>
+      <div class="clinics">
+        <span>Medicover<small>Warszawa</small></span>
+        <span>Orpea Polska<small>Warszawa</small></span>
+        <span>NZOZ „Centrum”<small>Sulejówek</small></span>
+        <span>NZOZ „Esculap”<small>Marki</small></span>
+        <span>Miejski Ośrodek Zdrowia<small>Zielonka</small></span>
+        <span>Miejski SP ZOZ<small>Kobyłka</small></span>
+        <span>Centrum Medyczne Józefów<small>Józefów</small></span>
+        <span>„Med-Jar”<small>Płock</small></span>
+        <span>Praktyka E. Konopa-Kaczmarczyk<small>Płock</small></span>
+        <span>Zdrowie Brudzeński ZOZ<small>Brudzeń Duży</small></span>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap">
+    <div class="contact" id="kontakt">
+      <h2>Umów się <em>telefonicznie</em></h2>
+      <a class="tel" href="tel:+48601143744">601 143 744</a>
+      <div class="cgrid">
+        <div class="cbox">
+          <h3>Godziny przyjęć</h3>
+          <table id="week">
+            <tr data-d="1"><td>Poniedziałek</td><td>9:00–17:00</td></tr>
+            <tr data-d="2"><td>Wtorek</td><td>9:00–16:00</td></tr>
+            <tr data-d="3"><td>Środa</td><td>9:00–16:00</td></tr>
+            <tr data-d="4"><td>Czwartek</td><td>9:00–16:00</td></tr>
+            <tr data-d="5"><td>Piątek</td><td>9:00–16:00</td></tr>
+          </table>
+        </div>
+        <div class="cbox">
+          <h3>Adres</h3>
+          <p><b>ul. Emilii Plater 25 lok. 4</b><br>00-688 Warszawa</p>
+          <p>2. piętro, winda. Wejście przez bramę, klatka po lewej. Ok. 6 minut pieszo od Dworca Centralnego.</p>
+        </div>
+        <div class="cbox">
+          <h3>Dojazd i e-mail</h3>
+          <p>Odcinek między ul. Wspólną a Hożą, w pobliżu hotelu Marriott.</p>
+          <p><a href="mailto:kaziura@emg.org.pl">kaziura@emg.org.pl</a></p>
+          <a class="pill pill-light" href="https://www.google.com/maps/search/?api=1&query=Emilii+Plater+25,+00-688+Warszawa" target="_blank" rel="noopener">Otwórz mapę</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Prywatna Pracownia EMG i Gabinet Neurologiczny</span>
+    <a href="#">Polityka prywatności</a>
+  </div>
+</footer>
+
+<div class="callbar"><a class="pill pill-dark" href="tel:+48601143744"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>Zadzwoń: 601 143 744</a></div>
+
+<script>
+
+/* podgląd palet (tymczasowo) */
+(function(){
+  var P=[
+    ['Pastel','#2E7D5B','#DDF2E6','#F7F7F2',['#C9F0DC','#EAF6C8','#FFE0CC'],['#BFEBD6','#DDF3C4','#F4F6C8'],['#BFEBD6','#DDF3C4','#FFE3CF']],
+    ['Niebo','#2F5FD0','#E0E9FB','#F6F8FB',['#CFE0FA','#E3EEFF','#E2F3F8'],['#CFE0FA','#E2EEFD','#F0F6FF'],['#C9DCF8','#DDE9FB','#EEF4FF']],
+    ['Morze','#0D7480','#D5ECEE','#F5F9F9',['#C6ECEC','#DFF3EF','#EAF4F7'],['#BFE6E8','#D9F0EE','#EEF7F6'],['#BFE6E8','#D6EFEA','#EAF6F3']],
+    ['Brzoskwinia','#B5532C','#FBE3D6','#FBF7F3',['#FFD9C4','#FFE9D6','#FFF1DE'],['#FFD8C2','#FFE6D2','#FFF2E2'],['#FFD3BC','#FFE4CC','#FFF0DA']],
+    ['Szałwia','#4E6B4A','#E2EADF','#F5F5F0',['#D7E4D2','#E7EEDB','#F1EFE2'],['#D3E2CD','#E3ECD6','#F1F1E3'],['#CFDFC8','#E2EBD3','#F3F0E1']],
+    ['Róż','#B23A5E','#F8DDE5','#FBF7F7',['#FAD4DF','#FCE3E8','#FFF0E8'],['#F9D2DD','#FCE2E7','#FFF0EC'],['#F7CDD9','#FBE0E6','#FFEFE9']],
+    ['Piasek','#8A6A2F','#F1E7D2','#F8F6F1',['#F2E3C2','#F6EBD3','#FAF3E3'],['#EFE0BE','#F5EAD2','#FAF4E6'],['#EEDDB8','#F4E8CD','#FAF3E2']],
+    ['Grafit','#222222','#E8E8E6','#F6F6F4',['#E6E6E3','#EFEFEC','#F5F5F2'],['#E2E2DF','#ECECE9','#F4F4F1'],['#E0E0DC','#EBEBE7','#F4F4F0']],
+    ['Cytryna','#5F6E0E','#EEF3C8','#F9F9F1',['#EEF6B8','#F6F9CF','#FFF8D9'],['#EAF4B0','#F3F8C8','#FFF7D6'],['#E6F2A6','#F2F7C2','#FFF5CF']],
+    ['Granat','#1E3A64','#E3E8F1','#F7F6F2',['#D9E2F0','#EEE7D6','#F5EFE2'],['#D4DEEE','#E9E8E2','#F6EEDC'],['#D0DBEC','#E6E5DE','#F5EBD6']]
+  ];
+  var root=document.documentElement, box=document.getElementById('sw');
+  function apply(i){
+    var p=P[i], st=root.style;
+    st.setProperty('--blue',p[1]); st.setProperty('--blue-soft',p[2]); st.setProperty('--bg',p[3]);
+    ['b','t','c'].forEach(function(k,j){ p[4+j].forEach(function(v,n){ st.setProperty('--'+k+(n+1),v) }) });
+    box.querySelectorAll('button').forEach(function(b,j){b.setAttribute('aria-pressed',j===i)});
+    try{localStorage.setItem('emg-pal',i)}catch(e){}
+  }
+  P.forEach(function(p,i){
+    var b=document.createElement('button'); b.type='button';
+    b.innerHTML='<i style="--a:'+p[1]+';--s:'+p[5][1]+'"></i>'+p[0];
+    b.addEventListener('click',function(){apply(i)}); box.appendChild(b);
+  });
+  var saved=0; try{saved=+localStorage.getItem('emg-pal')||0}catch(e){}
+  apply(saved<P.length?saved:0);
+})();
+
+/* objawy -> badanie -> cena (ceny z obecnego cennika) */
+(function(){
+  var items=[
+    {t:'Drętwienie dłoni',k:'Zespół cieśni nadgarstka',h:'Badanie nerwu pośrodkowego',x:'Badanie przewodzenia w nerwach ręki pozwala potwierdzić ucisk nerwu w kanale nadgarstka i ocenić jego stopień.',n:'bez oceny mięśni',p:'250–300 zł'},
+    {t:'Drętwienie małego palca',k:'Nerw łokciowy',h:'Badanie nerwu łokciowego',x:'Ocena przewodzenia w nerwie łokciowym, najczęściej przy podejrzeniu ucisku w okolicy łokcia.',n:'bez oceny mięśni',p:'250–300 zł'},
+    {t:'Opadanie stopy',k:'Nerw strzałkowy',h:'Badanie nerwu strzałkowego',x:'Badanie przewodzenia i mięśni podudzia przy podejrzeniu uszkodzenia nerwu strzałkowego.',n:'zależnie od zakresu',p:'270–450 zł'},
+    {t:'Mrowienie stóp',k:'Polineuropatia',h:'Badanie w kierunku polineuropatii',x:'Badanie kilku nerwów kończyn pozwala potwierdzić polineuropatię i określić jej rodzaj.',n:'zależnie od zakresu',p:'500–600 zł'},
+    {t:'Męczliwość mięśni',k:'Miastenia',h:'SF EMG',x:'Badanie pojedynczego włókna mięśniowego, najczulszy test elektrofizjologiczny w diagnostyce miastenii.',n:'próba miasteniczna: 300 zł',p:'650 zł'},
+    {t:'Skurcze i mrowienia',k:'Tężyczka',h:'Próba tężyczkowa',x:'Badanie w kierunku tężyczki, czyli nadmiernej pobudliwości nerwowo-mięśniowej.',n:'jedno badanie',p:'300 zł'},
+    {t:'Uraz barku i ręki',k:'Splot ramienny',h:'Badanie splotu ramiennego',x:'Pełna ocena nerwów i mięśni kończyny górnej po urazie lub przy podejrzeniu uszkodzenia splotu.',n:'całość',p:'ok. 800 zł'},
+    {t:'Postępujące osłabienie',k:'Choroba neuronu ruchowego',h:'Badanie w kierunku SLA',x:'Rozszerzone badanie EMG wielu mięśni w kierunku choroby neuronu ruchowego.',n:'pełny zakres',p:'950 zł'}
+  ];
+  var list=document.getElementById('clist'), panel=document.getElementById('cpanel'), cur=-1;
+  function fill(it){
+    document.getElementById('c-kind').textContent=it.k;
+    document.getElementById('c-title').textContent=it.h;
+    document.getElementById('c-text').textContent=it.x;
+    document.getElementById('c-note').textContent=it.n;
+    document.getElementById('c-price').textContent=it.p;
+  }
+  function show(i){
+    if(i===cur) return; var first=cur===-1; cur=i;
+    list.querySelectorAll('button').forEach(function(b,j){b.setAttribute('aria-selected',j===i)});
+    if(first){fill(items[i]);return}
+    panel.classList.add('swap');
+    setTimeout(function(){fill(items[i]);panel.classList.remove('swap')},150);
+  }
+  items.forEach(function(it,i){
+    var li=document.createElement('li'), b=document.createElement('button');
+    b.type='button'; b.setAttribute('role','tab'); b.textContent=it.t;
+    b.addEventListener('click',function(){show(i)});
+    b.addEventListener('mouseenter',function(){ if(matchMedia('(hover:hover)').matches) show(i)});
+    li.appendChild(b); list.appendChild(li);
+  });
+  show(0);
+})();
+
+/* linia zapisu w karcie (poglądowa) */
+(function(){
+  var svg=document.getElementById('trace'); if(!svg) return;
+  var W=600,H=120,mid=H/2,seed=5,x=0,d='M0 '+mid;
+  function r(){seed=(seed*16807)%2147483647;return (seed-1)/2147483646}
+  while(x<W){var env=Math.pow(Math.sin(Math.PI*x/W*2.2+.3)*.5+.5,1.5);var a=(3+env*50)*(.35+r()*.65);x+=2+r()*2.6;d+='L'+x.toFixed(1)+' '+(mid+(r()<.5?-a:a)).toFixed(1)}
+  var p=document.createElementNS('http://www.w3.org/2000/svg','path');p.setAttribute('d',d);svg.appendChild(p);
+})();
+
+/* status przyjęć wg czasu warszawskiego */
+(function(){
+  var hours={1:[9,17],2:[9,16],3:[9,16],4:[9,16],5:[9,16]};
+  var names=['niedzielę','poniedziałek','wtorek','środę','czwartek','piątek','sobotę'];
+  var m={};new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Warsaw',weekday:'short',hour:'numeric',minute:'numeric',hour12:false}).formatToParts(new Date()).forEach(function(p){m[p.type]=p.value});
+  var day=['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(m.weekday),t=+m.hour+(+m.minute)/60,h=hours[day];
+  var el=document.getElementById('status'),txt=el.querySelector('span');
+  if(h&&t>=h[0]&&t<h[1]) txt.textContent='Dziś przyjmuję do '+h[1]+':00';
+  else{
+    el.classList.add('closed');
+    var n=day,label;
+    if(h&&t<h[0]) label='dziś';
+    else{do{n=(n+1)%7}while(!hours[n]);label=(n===(day+1)%7)?'jutro':'w '+names[n]}
+    txt.textContent='Przyjmuję '+label+' od 9:00';
+  }
+  var row=document.querySelector('#week tr[data-d="'+day+'"]'); if(row) row.classList.add('today');
+})();
+</script>
+</body>
+</html>
